@@ -1,0 +1,241 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: Helvetica, sans-serif;
+  font-size: 22px;
+  letter-spacing: 1.5px;
+}
+img {
+  width: 65vh;
+  height: 39vh;
+}
+.big-pic {
+  width: 180vh;
+  height: 90vh;
+  border-bottom: 1px black solid;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+}
+.nav-bar {
+  display: flex;
+  gap: 2em;
+  padding: 1.5em 3.5em;
+  background-color: #e4e5f1;
+  border-bottom: 1px black solid;
+}
+.welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  padding: 3em 0;
+  background-color: #d2d3db;
+  border-bottom: 1px black solid;
+}
+.container {
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: 3em;
+  grid-column-gap: 1em;
+  padding: 3em 0;
+  background-color: #e4e5f1;
+}
+.grid-item {
+  border: 1px black solid;
+  background-color: #d2d3db;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.price-name {
+  padding-top: 3em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.name {
+  font-size: 38px;
+  padding-bottom: 0.5em;
+}
+.car-form {
+  background-color: #d2d3db;
+  border: 1px black solid;
+  color: rgb(35, 34, 34);
+  line-height: 1.6;
+  width: 180vh;
+}
+.name-and-price {
+  text-align: end;
+}
+.price {
+  padding-bottom: 2em;
+  font-size: large;
+}
+.text {
+  padding: 3em;
+}
+.car-form button {
+  padding: 0.3em;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  background-color: #d2d3db;
+}
+.grid-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 2em;
+  grid-row-gap: 2em;
+  padding: 2em;
+}
+.buy-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 180vh;
+  background-color: #e3e5f1;
+  padding: 3em 0;
+  border: 1px black solid;
+  border-top: 0px;
+}
+.buy-form input {
+  height: 5vh;
+  border-radius: 7px;
+  text-align: center;
+}
+
+.buy-form input::placeholder {
+  background-color: #e4e5f1;
+  padding: 1.2em;
+  text-align: center;
+  color: black;
+}
+.buy-form input:valid {
+  background-color: #e4e5f1;
+  text-align: center;
+}
+.buy-form button {
+  border-radius: 15%;
+  padding: 0.8em 2.2em;
+  cursor: pointer;
+  border-color: black;
+  color: black(162, 151, 151);
+  background-color: #e4e5f1;
+  margin-bottom: 2em;
+}
+.reviews {
+  background-color: #9394a5;
+  list-style: none;
+  width: 180vh;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+.review-item {
+  text-align: center;
+  padding: 1.5em;
+}
+.post-review {
+  padding: 3em 0;
+  width: 180vh;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  gap: 0.8em;
+  background-color: #484b6a;
+  border: 1px black solid;
+}
+.post-review input,
+.post-review select {
+  padding: 0.5em;
+  border-radius: 7px;
+}
+.post-review .textbox {
+  width: 120vh;
+  height: 30vh;
+  border: 1px black solid;
+  text-align: left;
+  padding: 2em;
+  border-radius: 7px;
+}
+.textbox::placeholder {
+  text-align: start;
+}
+.submit-button {
+  border-radius: 7px;
+  padding: 1em 2em;
+  cursor: pointer;
+}
+.buyers {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.buyers h2,
+.most-bought-cars h2 {
+  padding-bottom: 0.8em;
+}
+.buyers-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+.grid-item-list {
+  grid-auto-flow: column;
+  padding-bottom: 1em;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+.grid-item-list span {
+  font-size: 30px;
+  padding: 0 1em;
+}
+.grid-item-list button {
+  background-color: rgba(255, 0, 0, 0.926);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px white solid;
+  cursor: pointer;
+  color: white;
+}
+.grid-item-list button:hover {
+  background-color: rgb(113, 20, 20);
+}
+.most-bought-cars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bought-cars {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: 3em;
+  grid-column-gap: 1em;
+  padding: 3em 0;
+}
+.bought-cars li {
+  border: 1px solid black;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.bought-cars li p {
+  text-align: center;
+  padding: 1em 0 1em 0;
+  font-size: 28px;
+}
