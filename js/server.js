@@ -18,8 +18,8 @@ const pool = new Pool({
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "..", "views"));
 
-
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "/css")));
 app.use(express.static(path.join(__dirname, "..", "/js")));
@@ -94,6 +94,32 @@ app.get("/cars", async (req, res) => {
     console.error(error);
   }
 });
+app.get("/add_car", (req, res) => {
+  res.render("add");
+});
+app.post("/add_car", async (req, res) => {
+  try {
+    const { brand, model, price, imageurl, description } = req.body;
+
+    if (!brand || !model || !price || !imageurl) {
+      return res.status(400).send("All fields are required");
+    }
+
+    if (price <= 0) {
+      return res.status(400).send("Price must be a positive number");
+    }
+
+    const queryText =
+      "INSERT INTO cars (brand, model, price, imageurl, description) VALUES ($1, $2, $3, $4, $5)";
+    const values = [brand, model, price, imageurl, description];
+
+    await pool.query(queryText, values);
+
+    res.redirect("/cars");
+  } catch (error) {
+    console.error(error);
+  }
+});
 app.post("/buyer", async (req, res) => {
   try {
     const { firstName, lastName, country, address, carId } = req.body;
@@ -126,12 +152,28 @@ app.get("/orders", async (req, res) => {
     client.release();
     res.render("orders", {
       data: resultBuyer.rows,
-      bestCars: top3Result.rows
+      bestCars: top3Result.rows,
     });
   } catch (error) {
     console.error(error);
   }
 });
+app.get('/edit', async (req, res) => {
+  try {
+      const carId = req.query.id;
+      console.log(req.query.id);
+      const client = await pool.connect();
+      const queryText = 'SELECT * FROM cars WHERE id = $1';
+      const result = await client.query(queryText, [carId]);
+      client.release();
+
+      const car = result.rows[0];
+      res.render('edit', {car: car });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
 app.listen(port, () => {
-  console.log(`Server is listening at http://localhost:${port}`);
+  console.log(`Server is listening at http://localhost:${port}/cars`);
 });

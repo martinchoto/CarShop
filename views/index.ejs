@@ -34,10 +34,10 @@
               <%= element.brand %> <%= element.model %>
             </a>
           </p>
-          <p class="price"><%= element.price %> $</p>
+          <p class="price"><%= element.price %>$</p>
         </div>
         <div class="edit-delete">
-            <button class="edit-button">Edit</button>
+            <button class="edit-button"><a href="edit?id=<%= element.id %>">Edit</a></button>
             <button class="delete-button">Delete</button>
         </div>
       </div>

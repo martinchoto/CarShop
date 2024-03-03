@@ -81,7 +81,7 @@ a {
   text-align: end;
 }
 .price {
-  padding-bottom: 2em;
+  padding-bottom: 1em;
   font-size: large;
 }
 .text {
@@ -101,7 +101,7 @@ a {
   grid-row-gap: 2em;
   padding: 2em;
 }
-.secret-desc{
+.secret-desc {
   display: none;
 }
 .buy-form {
@@ -241,4 +241,58 @@ a {
   text-align: center;
   padding: 1em 0 1em 0;
   font-size: 28px;
+}
+.edit-delete {
+  display: flex;
+  justify-content: center;
+  gap: 1.5em;
+  padding-bottom: 1em;
+}
+.edit-button,
+.delete-button {
+  padding: 0.8em 1em;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  background-color: red;
+  border: none;
+}
+.edit-button{
+  background-color: rgb(28, 250, 176);
+}
+.edit-button:hover{
+  background-color: rgb(49, 130, 103);
+}
+.delete-button:hover{
+  background-color: rgb(113, 20, 20);
+}
+.add-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #9394a5;
+  gap: 20px;
+}
+.add-form input, .add-form textarea{
+  width: 80vh;
+  padding: 1em 0.5em;
+  border-radius: 7px;
+}
+.add-form textarea{
+  height: 20vh;
+  resize: none;
+}
+.add-form h2{
+  padding: 1.5em 0;
+}
+.add-form button{
+  padding: 1em;
+  border-radius: 10px;
+  margin-bottom: 1em;
+  border: none;
+  background-color: #d2d3db;
+  cursor: pointer;
+}
+.add-form button:hover{
+  background-color: #76777c;
 }
