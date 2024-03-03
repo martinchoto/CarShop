@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Car Shop</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <link
+      rel="shortcut icon"
+      type="x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/75/75800.png"
+    />
+  </head>
+  <body>
+    <nav class="nav-bar">
+      <p><a href="/cars">All</a></p>
+      <p><a href="/orders">Orders</a></p>
+    </nav>
+    <main>
+      <section class="buyers">
+        <h2>Orders</h2>
+        <ul class="buyers-list">
+          <% data.forEach(element => { %>
+          <li class="grid-item-list" id="<%= element.id %>">
+            <span class="fullName"
+              ><%= element.firstname %> <%= element.lastname %></span
+            >
+            <span class="address"><%= element.address %></span>
+            <span><%= element.country %></span>
+            <span><%= element.brand %> <%= element.model %></span>
+            <span>Price: <%= element.price %>$</span>
+            <button class="del-btn" onclick="deleteBuyer('<%= element.id %>')">
+              Delete
+            </button>
+          </li>
+          <% }); %>
+        </ul>
+      </section>
+      <section class="most-bought-cars">
+        <h2>Top 3 Most Bought Cars</h2>
+        <ul class="bought-cars">
+          <% bestCars.forEach(element => { %>
+          <li>
+            <img
+              src="<%= element.imageurl %>"
+              alt="<%= element.brand %> <%= element.model %>"
+            />
+            <p><%= element.brand %> <%= element.model %></p>
+            <p>Bought: <%= element.count %></p>
+          </li>
+          <% }); %>
+        </ul>
+      </section>
+      <script src="/js/orders.js"></script>
+    </main>
+  </body>
+  <script src="/script.js"></script>
+</html>

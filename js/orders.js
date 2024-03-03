@@ -91,6 +91,3 @@ async function fetchBuyers() {
     ulElement.appendChild(liElement);
   });
 }
-async function deleteBuyer() {
-  console.log("test");
-}

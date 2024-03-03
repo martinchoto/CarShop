@@ -101,6 +101,9 @@ a {
   grid-row-gap: 2em;
   padding: 2em;
 }
+.secret-desc{
+  display: none;
+}
 .buy-form {
   display: flex;
   flex-direction: column;

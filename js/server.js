@@ -2,9 +2,10 @@ const cors = require("cors");
 const { Pool } = require("pg");
 const express = require("express");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 const app = express();
-const port = 4444;
+const port = 3000;
 
 const pool = new Pool({
   user: "postgres",
@@ -14,8 +15,14 @@ const pool = new Pool({
   port: 5555,
 });
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "..", "views"));
+
+
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "..", "/css")));
+app.use(express.static(path.join(__dirname, "..", "/js")));
 
 app.post("/review", async (req, res) => {
   try {
@@ -33,17 +40,32 @@ app.post("/review", async (req, res) => {
     res.status(500).json({ message: "Invalid message!!!" });
   }
 });
-app.get("/car", async (req, res) => {
+app.get("/details", async (req, res) => {
   const carId = req.query.id;
   try {
     const client = await pool.connect();
-    const queryText = "SELECT * FROM cars WHERE id = $1";
-    const result = await client.query(queryText, [carId]);
-
-    res.json(result.rows[0]);
+    const carQuery = "SELECT * FROM cars WHERE id = $1";
+    const resultCar = await client.query(carQuery, [carId]);
+    const reviewQuery = "SELECT * FROM reviews WHERE car_id = $1";
+    const resultReview = await client.query(reviewQuery, [carId]);
     client.release();
+    const [firstHalf, lastHalf] = await splitTextInHalf(
+      resultCar.rows[0].description
+    );
+    res.render("details", {
+      car: resultCar.rows[0],
+      reviews: resultReview.rows,
+      desc: { firstHalf, lastHalf },
+    });
   } catch (error) {
     console.error(error);
+  }
+  async function splitTextInHalf(text) {
+    const midpoint = Math.ceil(text.length / 2);
+    const firstHalf = text.substring(0, midpoint);
+    const secondHalf = text.substring(midpoint);
+
+    return [firstHalf, secondHalf];
   }
 });
 app.get("/reviews", async (req, res) => {
@@ -66,7 +88,8 @@ app.get("/cars", async (req, res) => {
       "SELECT id, brand, model, price, imageurl FROM cars ORDER BY price DESC";
     const result = await client.query(queryText);
     client.release();
-    res.json(result.rows);
+
+    res.render("index", { cars: result.rows });
   } catch (error) {
     console.error(error);
   }
@@ -91,44 +114,22 @@ app.post("/buyer", async (req, res) => {
     console.error(error);
   }
 });
-app.get("/top3", async (req, res) => {
+app.get("/orders", async (req, res) => {
   try {
     const client = await pool.connect();
-    const queryText =
-      "SELECT c.brand, c.model, COUNT(car_id) ,c.imageurl FROM cars AS c JOIN buyers AS b ON b.car_Id = c.id GROUP BY c.brand, c.model, c.imageurl ORDER BY COUNT(car_id) DESC LIMIT 3";
-    const result = await client.query(queryText);
-    client.release();
-    res.json(result.rows);
-  } catch (error) {
-    console.error(error);
-  }
-});
-app.get("/buyers", async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const queryText =
+    const buyerQuery =
       "SELECT b.id, b.firstname, b.lastname, b.address, b.country, c.brand, c.model, c.price FROM buyers AS b JOIN cars AS c ON c.id = b.car_id ORDER BY b.id";
-    const result = await client.query(queryText);
+    const resultBuyer = await client.query(buyerQuery);
+    const top3Query =
+      "SELECT c.brand, c.model, COUNT(car_id) ,c.imageurl FROM cars AS c JOIN buyers AS b ON b.car_Id = c.id GROUP BY c.brand, c.model, c.imageurl ORDER BY COUNT(car_id) DESC LIMIT 3";
+    const top3Result = await client.query(top3Query);
     client.release();
-    res.json(result.rows);
+    res.render("orders", {
+      data: resultBuyer.rows,
+      bestCars: top3Result.rows
+    });
   } catch (error) {
     console.error(error);
-  }
-});
-app.delete("/delete", async (req, res) => {
-  try {
-    const buyerId = req.body.id;
-    const client = await pool.connect();
-    const queryText = "DELETE FROM buyers WHERE id = $1";
-    const result = await client.query(queryText, [buyerId]);
-    client.release();
-
-    res
-      .status(200)
-      .json({ message: `Succesfully deleted buyer with id ${buyerId}` });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
   }
 });
 app.listen(port, () => {

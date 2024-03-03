@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Car Shop</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <link
+      rel="shortcut icon"
+      type="x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/75/75800.png"
+    />
+  </head>
+  <body>
+    <nav class="nav-bar">
+        <p><a href="/cars">All</a></p>
+        <p><a href="/orders">Orders</a></p>
+      </nav>
+    <main>
+      <section class="car-form">
+        <img class="big-pic" src="<%= car.imageurl %>" />
+        <div class="text">
+          <div class="name-and-price">
+            <h2 class="name"><%= car.brand %> <%= car.model %></h2>
+            <p class="price"><%= car.price %>$</p>
+          </div>
+          <div class="desc">
+            <span class="main-desc"><%= desc.firstHalf %></span>
+            <button class="hide-desc">Read More...</button>
+            <br />
+            <span class="secret-desc"><%= desc.lastHalf %></span>
+          </div>
+        </div>
+      </section>
+      <section class="buy-form">
+        <h3>Buy one</h3>
+        <div class="grid-input">
+          <input type="text" id="firstName" placeholder="First Name" required />
+          <input type="text" id="lastName" placeholder="Last Name" required />
+          <input type="text" id="country" placeholder="Country" required />
+          <input type="text" id="address" placeholder="Address" required />
+        </div>
+        <button class="buy-button">Buy</button>
+        <p id="ty"></p>
+      </section>
+      <ul class="reviews">
+        <% reviews.forEach((element) => { %>
+        <li class="review-item">
+          <p class="username">User -> <%= element.writer %></p>
+          <p>Grade -> <%= element.review_grade %></p>
+          <p>Comment:</p>
+          <p class="comment"><%= element.review_text %></p>
+        </li>
+        <% }); %>
+      </ul>
+      <section class="post-review">
+        <span>Choose a review:</span>
+        <select class="cars">
+          <option value="bad">Bad Product</option>
+          <option value="ok">Ok Product</option>
+          <option value="nice">Nice Product</option>
+          <option value="very">Very good Product</option>
+          <option value="exceptional">Insane Product</option>
+        </select>
+        <input
+          type="text"
+          id="username"
+          placeholder="Enter your username"
+          minlength="3"
+          maxlength="25"
+        />
+        <textarea
+          type="text"
+          class="textbox"
+          placeholder="Write a review here.."
+        ></textarea>
+        <button class="submit-button">Submit</button>
+      </section>
+    </main>
+  </body>
+  <script src="/script.js"></script>
+</html>

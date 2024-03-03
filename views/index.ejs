@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Car Shop</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <link
+      rel="shortcut icon"
+      type="x-icon"
+      href="https://cdn-icons-png.flaticon.com/512/75/75800.png"
+    />
+  </head>
+  <body>
+    <nav class="nav-bar">
+      <p><a href="/cars">All</a></p>
+      <p><a href="/orders">Orders</a></p>
+    </nav>
+    <section class="welcome">
+      <h2>CarShop</h2>
+      <p>Simple project using my Web skills</p>
+    </section>
+    <section class="container">
+      <% cars.forEach((element) => { %>
+      <div class="grid-item">
+        <a href="/details?id=<%= element.id %>">
+          <img
+            src="<%= element.imageurl %>"
+            alt="<%= element.brand %> <%= element.model %>"
+          />
+        </a>
+        <div class="price-name">
+          <p class="name">
+            <a href="/details?id=<%= element.id %>">
+              <%= element.brand %> <%= element.model %>
+            </a>
+          </p>
+          <p class="price"><%= element.price %> $</p>
+        </div>
+        <div class="edit-delete">
+            <button class="edit-button">Edit</button>
+            <button class="delete-button">Delete</button>
+        </div>
+      </div>
+      <% }); %>
+    </section>
+  </body>
+</html>
