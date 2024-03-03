@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Lamborghini</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <meta charset="UTF-8" />
+    <title>Car Shop</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
     <link
       rel="shortcut icon"
       type="x-icon"
@@ -10,19 +11,23 @@
     />
   </head>
   <body>
+    <nav class="nav-bar">
+        <p><a href="/cars">All</a></p>
+        <p><a href="/orders">Orders</a></p>
+      </nav>
     <main>
       <section class="car-form">
-        <img class="big-pic" />
+        <img class="big-pic" src="<%= car.imageurl %>" />
         <div class="text">
           <div class="name-and-price">
-            <h2 class="name"></h2>
-            <p class="price"></p>
+            <h2 class="name"><%= car.brand %> <%= car.model %></h2>
+            <p class="price"><%= car.price %>$</p>
           </div>
           <div class="desc">
-            <span class="main-desc"></span>
+            <span class="main-desc"><%= desc.firstHalf %></span>
             <button class="hide-desc">Read More...</button>
             <br />
-            <span class="secret-desc" style="display: none"></span>
+            <span class="secret-desc"><%= desc.lastHalf %></span>
           </div>
         </div>
       </section>
@@ -37,7 +42,16 @@
         <button class="buy-button">Buy</button>
         <p id="ty"></p>
       </section>
-      <ul class="reviews"></ul>
+      <ul class="reviews">
+        <% reviews.forEach((element) => { %>
+        <li class="review-item">
+          <p class="username">User -> <%= element.writer %></p>
+          <p>Grade -> <%= element.review_grade %></p>
+          <p>Comment:</p>
+          <p class="comment"><%= element.review_text %></p>
+        </li>
+        <% }); %>
+      </ul>
       <section class="post-review">
         <span>Choose a review:</span>
         <select class="cars">
@@ -62,6 +76,6 @@
         <button class="submit-button">Submit</button>
       </section>
     </main>
-    <script src="/js/script.js"></script>
   </body>
+  <script src="/script.js"></script>
 </html>
