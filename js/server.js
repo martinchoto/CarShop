@@ -94,7 +94,7 @@ app.get("/cars", async (req, res) => {
     console.error(error);
   }
 });
-app.get("/add_car", (req, res) => {
+app.get("/add_car", async (req, res) => {
   res.render("add");
 });
 app.post("/add_car", async (req, res) => {
@@ -108,12 +108,13 @@ app.post("/add_car", async (req, res) => {
     if (price <= 0) {
       return res.status(400).send("Price must be a positive number");
     }
-
+    const client = await pool.connect();
     const queryText =
       "INSERT INTO cars (brand, model, price, imageurl, description) VALUES ($1, $2, $3, $4, $5)";
     const values = [brand, model, price, imageurl, description];
 
     await pool.query(queryText, values);
+    client.release();
 
     res.redirect("/cars");
   } catch (error) {
@@ -158,21 +159,47 @@ app.get("/orders", async (req, res) => {
     console.error(error);
   }
 });
-app.get('/edit', async (req, res) => {
+app.get("/edit", async (req, res) => {
   try {
-      const carId = req.query.id;
-      console.log(req.query.id);
-      const client = await pool.connect();
-      const queryText = 'SELECT * FROM cars WHERE id = $1';
-      const result = await client.query(queryText, [carId]);
-      client.release();
+    const carId = req.query.id;
+    const client = await pool.connect();
+    const queryText = "SELECT * FROM cars WHERE id = $1";
+    const result = await client.query(queryText, [carId]);
+    client.release();
 
-      const car = result.rows[0];
-      res.render('edit', {car: car });
+    const car = result.rows[0];
+    res.render("edit", { car: car });
   } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
+    console.error(error);
   }
+});
+app.post("/edit", async (req, res) => {
+  try {
+    const { carId, brand, model, price, imageurl, description } = req.body;
+
+    if (!brand || !model || !price || !imageurl) {
+      return res.status(400).send("All fields are required");
+    }
+
+    if (price <= 0) {
+      return res.status(400).send("Price must be a positive number");
+    }
+    const client = await pool.connect();
+    const queryText =
+      "UPDATE cars SET brand = $1, model = $2, price = $3, imageurl = $4, description = $5 WHERE id = $6";
+    const values = [brand, model, price, imageurl, description.trim(), carId];
+
+    await pool.query(queryText, values);
+    client.release();
+
+    res.redirect("/cars");
+  } catch (error) {
+    console.error(error);
+  }
+});
+app.delete("/delete", async (req, res) => {
+
+
 });
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}/cars`);
