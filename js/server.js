@@ -39,7 +39,6 @@ app.post("/details/add_review", async (req, res) => {
     res.redirect(`/details/${carId}`);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Invalid message!!!" });
   }
 });
 app.get("/details/:id", async (req, res) => {
