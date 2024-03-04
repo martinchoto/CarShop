@@ -165,6 +165,9 @@ a {
 .post-review{
   border: 1px black solid;
 }
+.post-review select{
+  text-align: center;
+}
 .post-review input,
 .post-review select {
   padding: 0.5em;

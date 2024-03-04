@@ -77,13 +77,14 @@
         <% }); %>
       </ul>
       <section class="post-review">
-          <span>Choose a review:</span>
-          <select class="cars">
-            <option value="bad">Bad Product</option>
-            <option value="ok">Ok Product</option>
-            <option value="nice">Nice Product</option>
-            <option value="very">Very good Product</option>
-            <option value="exceptional">Insane Product</option>
+        <span>Choose a review:</span>
+        <form action="/details/add_review" method="post">
+          <select class="cars" name="review">
+            <option value="Bad Product">Bad Product</option>
+            <option value="Ok Product">Ok Product</option>
+            <option value="Nice Product">Nice Product</option>
+            <option value="Very good Produc">Very good Product</option>
+            <option value="Insane Product">Insane Product</option>
           </select>
           <input
             type="text"
@@ -91,13 +92,17 @@
             placeholder="Enter your username"
             minlength="3"
             maxlength="25"
+            name="username"
           />
           <textarea
             type="text"
             class="textbox"
             placeholder="Write a review here.."
+            name="text"
           ></textarea>
+          <input type="hidden" name="carId" value="<%= car.id %>" />
           <button class="submit-button" type="submit">Submit</button>
+        </form>
       </section>
     </main>
     <script src="/script.js"></script>

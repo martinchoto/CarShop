@@ -24,17 +24,19 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "/css")));
 app.use(express.static(path.join(__dirname, "..", "/js")));
 
-app.post("/add_review", async (req, res) => {
+app.post("/details/add_review", async (req, res) => {
   try {
-    const { writer, reviewText, reviewGrade, carId } = req.body;
+    const { review, username, text, carId } = req.body;
+    if ((!review, !username, !text, !carId)) {
+      throw new Error("Invalid Info!");
+    }
     const client = await pool.connect();
     const queryText =
       "INSERT INTO reviews (writer, review_text, review_grade, car_id) VALUES ($1, $2, $3, $4)";
-    const values = [writer, reviewText, reviewGrade, carId];
-    const result = await client.query(queryText, values);
+    await client.query(queryText, [username, text, review, carId]);
     client.release();
 
-    res.status(200).json({ message: "Review added successfully!" });
+    res.redirect(`/details/${carId}`);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Invalid message!!!" });
@@ -111,12 +113,17 @@ app.post("/add_car", async (req, res) => {
 });
 app.post("/buy", async (req, res) => {
   try {
-    
     const { firstName, lastName, country, address, carId } = req.body;
     const client = await pool.connect();
     const queryText =
       "INSERT INTO buyers(firstname, lastname, country, address, car_id) VALUES ($1, $2, $3, $4, $5)";
-    await client.query(queryText, [firstName, lastName, country, address, carId]);
+    await client.query(queryText, [
+      firstName,
+      lastName,
+      country,
+      address,
+      carId,
+    ]);
 
     client.release();
     res.status(200).json({ message: "Buyer added successfully" });
