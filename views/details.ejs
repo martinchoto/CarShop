@@ -12,9 +12,9 @@
   </head>
   <body>
     <nav class="nav-bar">
-        <p><a href="/cars">All</a></p>
-        <p><a href="/orders">Orders</a></p>
-      </nav>
+      <p><a href="/cars">All</a></p>
+      <p><a href="/orders">Orders</a></p>
+    </nav>
     <main>
       <section class="car-form">
         <img class="big-pic" src="<%= car.imageurl %>" />
@@ -33,13 +33,21 @@
       </section>
       <section class="buy-form">
         <h3>Buy one</h3>
-        <div class="grid-input">
-          <input type="text" id="firstName" placeholder="First Name" required />
-          <input type="text" id="lastName" placeholder="Last Name" required />
-          <input type="text" id="country" placeholder="Country" required />
-          <input type="text" id="address" placeholder="Address" required />
-        </div>
-        <button class="buy-button">Buy</button>
+        <form action="/buy" method="post">
+          <div class="grid-input">
+            <input
+              type="text"
+              id="firstName"
+              placeholder="First Name"
+              required
+            />
+            <input type="text" id="lastName" placeholder="Last Name" required />
+            <input type="text" id="country" placeholder="Country" required />
+            <input type="text" id="address" placeholder="Address" required />
+          </div>
+          <button class="buy-button" type="submit">Buy</button>
+        </form>
+
         <p id="ty"></p>
       </section>
       <ul class="reviews">
@@ -76,6 +84,6 @@
         <button class="submit-button">Submit</button>
       </section>
     </main>
+    <script src="/script.js"></script>
   </body>
-  <script src="/script.js"></script>
 </html>
