@@ -40,8 +40,8 @@ app.post("/review", async (req, res) => {
     res.status(500).json({ message: "Invalid message!!!" });
   }
 });
-app.get("/details", async (req, res) => {
-  const carId = req.query.id;
+app.get("/details/:id", async (req, res) => {
+  const carId = req.params.id;
   try {
     const client = await pool.connect();
     const carQuery = "SELECT * FROM cars WHERE id = $1";
@@ -159,9 +159,9 @@ app.get("/orders", async (req, res) => {
     console.error(error);
   }
 });
-app.get("/edit", async (req, res) => {
+app.get("/edit/:id", async (req, res) => {
+  const carId = req.params.id;
   try {
-    const carId = req.query.id;
     const client = await pool.connect();
     const queryText = "SELECT * FROM cars WHERE id = $1";
     const result = await client.query(queryText, [carId]);
@@ -173,7 +173,7 @@ app.get("/edit", async (req, res) => {
     console.error(error);
   }
 });
-app.post("/edit", async (req, res) => {
+app.post("/edit/:id", async (req, res) => {
   try {
     const { carId, brand, model, price, imageurl, description } = req.body;
 
@@ -197,9 +197,31 @@ app.post("/edit", async (req, res) => {
     console.error(error);
   }
 });
-app.delete("/delete", async (req, res) => {
+app.post("/delete/:id", async (req, res) => {
+  const carId = req.params.id;
+  try {
+    const client = await pool.connect();
+    const queryText = "DELETE FROM cars WHERE id = $1";
+    await client.query(queryText, [carId]);
+    client.release();
 
+    res.redirect("/cars")
+  } catch (error) {
+    console.error(error);
+  }
+});
+app.post("/delete_buyer/:id", async (req, res) => {
+  const carId = req.params.id;
+  try {
+    const client = await pool.connect();
+    const queryText = "DELETE FROM buyers WHERE id = $1";
+    await client.query(queryText, [carId]);
+    client.release();
 
+    res.redirect("/orders")
+  } catch (error) {
+    console.error(error);
+  }
 });
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}/cars`);

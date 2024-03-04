@@ -22,7 +22,7 @@
     <section class="container">
       <% cars.forEach((element) => { %>
       <div class="grid-item">
-        <a href="/details?id=<%= element.id %>">
+        <a href="/details/<%= element.id %>">
           <img
             src="<%= element.imageurl %>"
             alt="<%= element.brand %> <%= element.model %>"
@@ -30,20 +30,18 @@
         </a>
         <div class="price-name">
           <p class="name">
-            <a href="/details?id=<%= element.id %>">
+            <a href="/details/<%= element.id %>">
               <%= element.brand %> <%= element.model %>
             </a>
           </p>
           <p class="price"><%= element.price %>$</p>
         </div>
         <div class="edit-delete">
-          <form action="/edit" method="get" class="edit-form">
-            <button type="submit" class="edit-button">
-              <a href="/edit?id=<%=element.id %>">Edit</a>
-            </button>
+          <form action="/edit/<%= element.id %>" method="GET">
+            <button type="submit" class="edit-button">Edit</button>
           </form>
 
-          <form action="/delete" method="POST" class="delete-form">
+          <form action="/delete/<%= element.id %>" method="POST">
             <button type="submit" class="delete-button">Delete</button>
           </form>
         </div>

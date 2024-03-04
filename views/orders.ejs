@@ -27,10 +27,10 @@
             <span class="address"><%= element.address %></span>
             <span><%= element.country %></span>
             <span><%= element.brand %> <%= element.model %></span>
-            <span>Price: <%= element.price %>$</span>
-            <button class="del-btn" onclick="deleteBuyer('<%= element.id %>')">
-              Delete
-            </button>
+            <span><%= element.price %>$</span>
+            <form action="/delete_buyer/<%= element.id %>" method="POST">
+              <button type="submit" class="delete-button">Delete</button>
+            </form>
           </li>
           <% }); %>
         </ul>
