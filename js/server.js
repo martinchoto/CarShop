@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "..", "/css")));
 app.use(express.static(path.join(__dirname, "..", "/js")));
 
-app.post("/review", async (req, res) => {
+app.post("/add_review", async (req, res) => {
   try {
     const { writer, reviewText, reviewGrade, carId } = req.body;
     const client = await pool.connect();
@@ -68,18 +68,6 @@ app.get("/details/:id", async (req, res) => {
     return [firstHalf, secondHalf];
   }
 });
-app.get("/reviews", async (req, res) => {
-  try {
-    const carId = req.query.id;
-    const client = await pool.connect();
-    const queryText = "SELECT * FROM reviews WHERE car_id = $1";
-    const result = await client.query(queryText, [carId]);
-    client.release();
-    res.json(result.rows);
-  } catch (error) {
-    console.error(error);
-  }
-});
 
 app.get("/cars", async (req, res) => {
   try {
@@ -102,11 +90,11 @@ app.post("/add_car", async (req, res) => {
     const { brand, model, price, imageurl, description } = req.body;
 
     if (!brand || !model || !price || !imageurl) {
-      return res.status(400).send("All fields are required");
+      throw new Error("All fields required!");
     }
 
     if (price <= 0) {
-      return res.status(400).send("Price must be a positive number");
+      throw new Error("Price must be positive!!");
     }
     const client = await pool.connect();
     const queryText =
@@ -121,22 +109,17 @@ app.post("/add_car", async (req, res) => {
     console.error(error);
   }
 });
-app.post("/buyer", async (req, res) => {
+app.post("/buy", async (req, res) => {
   try {
+    
     const { firstName, lastName, country, address, carId } = req.body;
     const client = await pool.connect();
     const queryText =
       "INSERT INTO buyers(firstname, lastname, country, address, car_id) VALUES ($1, $2, $3, $4, $5)";
-    const result = await client.query(queryText, [
-      firstName,
-      lastName,
-      country,
-      address,
-      carId,
-    ]);
-    client.release();
+    await client.query(queryText, [firstName, lastName, country, address, carId]);
 
-    res.status(200).json({ message: `Succesfully added buyer.` });
+    client.release();
+    res.status(200).json({ message: "Buyer added successfully" });
   } catch (error) {
     console.error(error);
   }
@@ -178,11 +161,11 @@ app.post("/edit/:id", async (req, res) => {
     const { carId, brand, model, price, imageurl, description } = req.body;
 
     if (!brand || !model || !price || !imageurl) {
-      return res.status(400).send("All fields are required");
+      throw new Error("All fields required!");
     }
 
     if (price <= 0) {
-      return res.status(400).send("Price must be a positive number");
+      throw new Error("Price must be positive!!");
     }
     const client = await pool.connect();
     const queryText =
@@ -205,7 +188,7 @@ app.post("/delete/:id", async (req, res) => {
     await client.query(queryText, [carId]);
     client.release();
 
-    res.redirect("/cars")
+    res.redirect("/cars");
   } catch (error) {
     console.error(error);
   }
@@ -218,7 +201,7 @@ app.post("/delete_buyer/:id", async (req, res) => {
     await client.query(queryText, [carId]);
     client.release();
 
-    res.redirect("/orders")
+    res.redirect("/orders");
   } catch (error) {
     console.error(error);
   }

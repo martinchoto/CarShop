@@ -33,21 +33,37 @@
       </section>
       <section class="buy-form">
         <h3>Buy one</h3>
-        <form action="/buy" method="post">
-          <div class="grid-input">
-            <input
-              type="text"
-              id="firstName"
-              placeholder="First Name"
-              required
-            />
-            <input type="text" id="lastName" placeholder="Last Name" required />
-            <input type="text" id="country" placeholder="Country" required />
-            <input type="text" id="address" placeholder="Address" required />
-          </div>
-          <button class="buy-button" type="submit">Buy</button>
-        </form>
-
+        <div class="grid-input">
+          <input
+            type="text"
+            id="firstName"
+            placeholder="First Name"
+            name="firstName"
+            required
+          />
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            placeholder="Last Name"
+            required
+          />
+          <input
+            type="text"
+            id="country"
+            name="country"
+            placeholder="Country"
+            required
+          />
+          <input
+            type="text"
+            id="address"
+            name="address"
+            placeholder="Address"
+            required
+          />
+        </div>
+        <button class="buy-button" type="submit">Buy</button>
         <p id="ty"></p>
       </section>
       <ul class="reviews">
@@ -61,27 +77,27 @@
         <% }); %>
       </ul>
       <section class="post-review">
-        <span>Choose a review:</span>
-        <select class="cars">
-          <option value="bad">Bad Product</option>
-          <option value="ok">Ok Product</option>
-          <option value="nice">Nice Product</option>
-          <option value="very">Very good Product</option>
-          <option value="exceptional">Insane Product</option>
-        </select>
-        <input
-          type="text"
-          id="username"
-          placeholder="Enter your username"
-          minlength="3"
-          maxlength="25"
-        />
-        <textarea
-          type="text"
-          class="textbox"
-          placeholder="Write a review here.."
-        ></textarea>
-        <button class="submit-button">Submit</button>
+          <span>Choose a review:</span>
+          <select class="cars">
+            <option value="bad">Bad Product</option>
+            <option value="ok">Ok Product</option>
+            <option value="nice">Nice Product</option>
+            <option value="very">Very good Product</option>
+            <option value="exceptional">Insane Product</option>
+          </select>
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            minlength="3"
+            maxlength="25"
+          />
+          <textarea
+            type="text"
+            class="textbox"
+            placeholder="Write a review here.."
+          ></textarea>
+          <button class="submit-button" type="submit">Submit</button>
       </section>
     </main>
     <script src="/script.js"></script>
