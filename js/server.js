@@ -8,11 +8,11 @@ const app = express();
 const port = 3000;
 
 const pool = new Pool({
-  user: "######",
-  host: "######",
-  database: "#####",
-  password: "#####",
-  port: "#####"
+  user: "postgres",
+  host: "localhost",
+  database: "CarShop",
+  password: "marto",
+  port: 5555,
 });
 
 app.set("view engine", "ejs");
@@ -164,8 +164,8 @@ app.get("/edit/:id", async (req, res) => {
 });
 app.post("/edit/:id", async (req, res) => {
   try {
-    const { carId, brand, model, price, imageurl, description } = req.body;
-
+    const id = req.params.id;
+    const { brand, model, price, imageurl, description } = req.body;
     if (!brand || !model || !price || !imageurl) {
       throw new Error("All fields required!");
     }
@@ -176,7 +176,7 @@ app.post("/edit/:id", async (req, res) => {
     const client = await pool.connect();
     const queryText =
       "UPDATE cars SET brand = $1, model = $2, price = $3, imageurl = $4, description = $5 WHERE id = $6";
-    const values = [brand, model, price, imageurl, description.trim(), carId];
+    const values = [brand, model, price, imageurl, description.trim(), id];
 
     await pool.query(queryText, values);
     client.release();
