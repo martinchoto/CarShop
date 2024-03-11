@@ -3,7 +3,7 @@
   <%- include("partials/head") %>
   <body>
     <%- include("partials/navbar") %>
-    <form action="/edit?id=<%= car.id %>" method="POST" class="add-form">
+    <form action="/edit/<%= car.id %>" method="POST" class="add-form">
       <h2>Edit Car</h2>
       <label for="brand">Brand</label>
       <input
